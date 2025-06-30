@@ -1,4 +1,6 @@
 import "./styles.css";
-import { greeting } from "./greeting.js";
+import { retrieveData } from "./function/APIControl.js";
 
-console.log(greeting);
+const myKey = "D79PDB2396QBXM7JCA3DYAGB4";
+
+retrieveData(myKey);

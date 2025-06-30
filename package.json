@@ -1,7 +1,7 @@
 {
-  "name": "odin_template",
+  "name": "odin-weather_app",
   "version": "1.0.0",
-  "description": "The template repository to initial practices in The Odin Project",
+  "description": "Practice of \"Project: Weather App\" in The Odin Project",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
