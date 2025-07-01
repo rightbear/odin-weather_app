@@ -13,7 +13,44 @@
 
       <div class="info"></div>
 
-      <div class="setting"></div>
+      <div class="setting">
+        <form class="settingForm">
+          <h2 id="settingTitle">Check Today's Weather Forecast</h2>
+          
+          <div class="settingControl">
+            <div class="formLocation">
+              <h3>Select a city name</h3>
+              <div class="inputField">
+                <div class="locationInput">
+                  <img id="searchIcon" src="./images/magnifier.png">
+                  <input type="text" id="locationInput" placeholder="Search a city...">
+                </div>
+                <div class="invalidMsg"></div>
+              </div>
+
+              <h4>or</h4>
+
+              <h3>Fetch your location</h3>
+              <button class="locationBtn">
+                <img id="pinIcon" src="./images/location-pin.png">
+              </button>
+            </div>
+
+            <div class="formTemp">
+              <h3>Switch to Celsius/Fahrenheit</h3>
+              <div class="tempSwitch">
+                <input class="switch-checkbox" id="switchItem" type="checkbox" name="switch-checkbox" checked>
+                <label class="switch-label" for="switchItem">
+                    <span class="switch-txt" celsius="°C" fahrenheit="°F"></span>
+                    <span class="switch-Round-btn"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        </form>
+      </div>
     </main>
   </body>
 </html>
