@@ -1,6 +1,5 @@
 import "./styles.css";
-import { retrieveData } from "./function/APIControl.js";
+import { locationInputEvent } from "./function/eventHandler.js";
 
-const myKey = "D79PDB2396QBXM7JCA3DYAGB4";
-
+locationInputEvent();
 //retrieveData(myKey);

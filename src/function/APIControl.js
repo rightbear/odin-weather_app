@@ -1,4 +1,6 @@
-export async function retrieveData(myKey){
+const myKey = "D79PDB2396QBXM7JCA3DYAGB4";
+
+export async function retrieveData(){
     let location = null;
     
     while(!location) {

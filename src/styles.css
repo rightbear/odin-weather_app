@@ -173,6 +173,8 @@ form h3 {
     align-items: center;
 }
 
+/*****************************************************/
+
 /* Setting for toggle switch bottom */
 
 /* Set height and width for the switch region */
@@ -251,4 +253,23 @@ form h3 {
 
 .switch-checkbox:checked + .switch-label .switch-Round-btn{
   right: 0;
+}
+
+/*****************************************************/
+
+.introText {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: start;
+
+    padding: 5rem;
+}
+
+.introText p {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: DarkSlateBlue;
 }
