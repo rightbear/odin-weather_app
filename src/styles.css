@@ -12,9 +12,47 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+
+    font-family: Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    
+    background-image: url("./images/background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
 }
 
 main {
     flex: 1;
+
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(10, 1fr);
 }
 
+.header {
+    grid-column: 1 / -1;
+    grid-row: 1 / 2;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.headerTitle {
+    font-size: 35px;
+    color: white;
+}
+
+.headerTitle .firstWord{
+    color: lightskyblue
+}
+
+.info {
+    grid-column: 1 / 4;
+    grid-row: 2 / -1;
+}
+
+.setting {
+    grid-column: 4 / -1;
+    grid-row: 2 / -1;
+}

@@ -25,13 +25,13 @@ export async function retrieveData(myKey){
 
         const weatherData = await response.json();
 
-        // Use object destructing to get location, date, time, temperature, condition, condition-icon, temp-max, temp-min, temp-feelslike, humidity, windspeed, uvindex, future-5-days-data
+        // Use object destructing and rest parameters to get location, date, time, temperature, condition, icon, temp-max/min, temp-feelslike, humidity, windspeed, uvindex, future-5-days-data
         const { resolvedAddress: locationAddress, currentConditions: {datetime: currentTime, temp, conditions, icon, feelslike, humidity, windspeed, uvindex},
                 days: [ {datetime: currentDate, tempmax: todaytempMax, tempmin: todaytempMin}, ...future5Days] } = weatherData;
 
-        const selectedFieldsObject =  { locationAddress, currentDate, currentTime, temp, conditions, icon, todaytempMax, todaytempMin, feelslike, humidity, windspeed, uvindex, future5Days };
+        const selectedWeatherData =  { locationAddress, currentDate, currentTime, temp, conditions, icon, todaytempMax, todaytempMin, feelslike, humidity, windspeed, uvindex, future5Days };
 
-        console.log(selectedFieldsObject);
+        console.log(selectedWeatherData);
         console.log(weatherData);
     }
     catch (error) {
