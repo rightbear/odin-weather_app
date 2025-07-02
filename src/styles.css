@@ -155,8 +155,14 @@ form h3 {
     background-color: LavenderBlush;
 }
 
-.invalidMsg {
-    color: red;
+.btnField {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    gap: 5px;
 }
 
 .locationBtn {
@@ -171,6 +177,11 @@ form h3 {
 
 .locationBtn img {
     height: 2rem;
+}
+
+.invalidInputMsg,
+.invalidBtnMsg {
+    color: red;
 }
 
 .formTemp {
@@ -262,8 +273,6 @@ form h3 {
 .switch-checkbox:checked + .switch-label .switch-Round-btn{
   right: 0;
 }
-
-/*****************/
 
 /*****************************************************/
 

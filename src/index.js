@@ -1,5 +1,6 @@
 import "./styles.css";
-import { locationInputEvent } from "./function/eventHandler.js";
+import { locationInputEvent, locationButtonEvent } from "./function/eventHandler.js";
 
 locationInputEvent();
+locationButtonEvent();
 //retrieveData(myKey);
