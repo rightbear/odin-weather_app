@@ -1,5 +1,5 @@
 import { retrieveInputData, retrieveBtnData } from "./APIControl.js";
-import { showBtnInitError } from "./DOMControl"
+import { showBtnInitError, displayWeatherResult } from "./DOMControl"
 
 export function locationInputEvent() {
     const locationInput = document.querySelector('#locationInput');
@@ -12,6 +12,7 @@ export function locationInputEvent() {
                 .then(selectedWeatherData => {
                     // catch and print the re-solved promise from retrieveInputData
                     console.log(selectedWeatherData);
+                    displayWeatherResult();
                 })
                 .catch(error => {
                     // catch and print the error re-thrown from retrieveInputData
@@ -40,6 +41,7 @@ function locationBtnSuccess(position) {
     .then(selectedWeatherData => {
         // catch and print the re-solved promise from retrieveBtnData
         console.log(selectedWeatherData);
+        displayWeatherResult(selectedWeatherData);
     })
     .catch(error => {
         // catch and print the error re-thrown from retrieveBtnData

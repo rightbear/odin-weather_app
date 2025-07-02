@@ -73,13 +73,13 @@ export async function retrieveBtnData(position){
         const locationData = allResult[1];
         console.log(locationData);
         // Use object destructing and rest parameters to get location, date, time, temperature, condition, icon, temp-max/min, temp-feelslike, humidity, windspeed, uvindex, future-5-days-data
-        const { currentConditions: {datetime: currentTime, temp, conditions, icon, feelslike, humidity, windspeed, uvindex},
-                days: [ {datetime: currentDate, tempmax: todaytempMax, tempmin: todaytempMin}, ...future5Days] } = weatherData;
+        const { currentConditions: {datetime: recordTime, temp, conditions, icon, feelslike, humidity, windspeed, uvindex},
+                days: [ {datetime: recordDate, tempmax: todaytempMax, tempmin: todaytempMin}, ...future5Days] } = weatherData;
 
         // Use object to get location
         const { features: [ {properties: { address: { country, city, suburb } }}, ...restElemnt] } = locationData;
 
-        const selectedWeatherData =  { locationAddress: `${country}${city}${suburb}`, currentDate, currentTime, temp, conditions, icon, todaytempMax, todaytempMin, feelslike, humidity, windspeed, uvindex, future5Days };
+        const selectedWeatherData =  { locationAddress: `${suburb}, ${city}, ${country}`, recordDate, recordTime, temp, conditions, icon, todaytempMax, todaytempMin, feelslike, humidity, windspeed, uvindex, future5Days };
 
         // return the weather data we want
         return selectedWeatherData;
