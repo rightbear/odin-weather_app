@@ -52,6 +52,8 @@ main {
     grid-row: 2 / -1;
 }
 
+/*****************************************************/
+
 .setting {
     grid-column: 3 / -1;
     grid-row: 2 / -1;
@@ -65,6 +67,7 @@ main {
     align-items: center;
 
     width: 90%;
+    height: 90%;
 }
 
 form h2, form h4 {
@@ -96,8 +99,9 @@ form h3 {
     border-radius: 10px;
     padding: 30px;
     margin: 30px;
-    gap: 30px;
+    gap: 15%;
     min-width: 80%;
+    min-height: 75%;
 
     background-color: rgba(25, 25, 112, .75);
 }
@@ -151,6 +155,10 @@ form h3 {
     background-color: LavenderBlush;
 }
 
+.invalidMsg {
+    color: red;
+}
+
 .locationBtn {
     padding: 5px;
     border: none;
@@ -173,7 +181,7 @@ form h3 {
     align-items: center;
 }
 
-/*****************************************************/
+/*****************/
 
 /* Setting for toggle switch bottom */
 
@@ -254,6 +262,8 @@ form h3 {
 .switch-checkbox:checked + .switch-label .switch-Round-btn{
   right: 0;
 }
+
+/*****************/
 
 /*****************************************************/
 
