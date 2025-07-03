@@ -1,5 +1,5 @@
 import { retrieveInputData, retrieveBtnData } from "./APIControl.js";
-import { showBtnInitError, displayLoadError, displayWeatherResult, celToFah, preciseRound } from "./DOMControl"
+import { showInputEmptyError, showBtnInitError, clearInputField, displayLoadError, displayWeatherResult, celToFah, preciseRound } from "./DOMControl"
 
 let currentWeatherData = null;
 
@@ -10,25 +10,30 @@ export function locationInputEvent() {
         if (event.key === 'Enter' || event.keyCode === 13) {
                 event.preventDefault();
 
-                retrieveInputData(locationInput.value)
-                .then(selectedWeatherData => {
-                    // catch and print the re-solved promise from retrieveInputData
-                    currentWeatherData = selectedWeatherData;
-                    console.log(currentWeatherData);
-                    return displayWeatherResult(selectedWeatherData);
-                })
-                .then(() => {
-                    console.log('Weather data successfully loaded');
-                })
-                .catch(error => {
-                    // catch and print the error re-thrown from retrieveInputData
-                    console.log(error);
-                    const errorMsg = error.message;
-                    // Deal with all error except the empty input
-                    if(!errorMsg.includes("Cannot read properties of null")){
-                        return displayLoadError();
-                    }
-                });
+                if(locationInput.value === ""){
+                    showInputEmptyError();
+                }
+                else {
+                    retrieveInputData(locationInput.value)
+                    .then(selectedWeatherData => {
+                        // catch and print the re-solved promise from retrieveInputData
+                        currentWeatherData = selectedWeatherData;
+                        console.log(currentWeatherData);
+                        return displayWeatherResult(selectedWeatherData);
+                    })
+                    .then(() => {
+                        console.log('Weather data successfully loaded');
+                    })
+                    .catch(error => {
+                        // catch and print the error re-thrown from retrieveInputData
+                        console.log(error);
+                        const errorMsg = error.message;
+                        // Deal with all error except the empty input
+                        if(!errorMsg.includes("Cannot read properties of null")){
+                            return displayLoadError();
+                        }
+                    });
+                }
         }
     });
 }
@@ -39,6 +44,7 @@ export function locationButtonEvent() {
     locationBtn.addEventListener('click', function checkClick(event) {
         event.preventDefault();
 
+        clearInputField();
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(locationBtnSuccess, locationBtnError);
         } else { 

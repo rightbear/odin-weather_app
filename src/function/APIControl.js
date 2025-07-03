@@ -3,13 +3,13 @@ import { showInputEmptyError, showInputLocationError, showInputConnectError, sho
 const myKey = "D79PDB2396QBXM7JCA3DYAGB4";
 
 export async function retrieveInputData(location){
+    clearInputField();
     if(location === "") {
         showInputEmptyError();
     }
     else {
         try {
             displayPageLoader();
-            clearInputField();
             const response = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}/next5days?unitGroup=metric&key=${myKey}`, { mode: "cors" });
             
             if(response.status === 400) {
@@ -46,7 +46,6 @@ export async function retrieveInputData(location){
 export async function retrieveBtnData(position){
     try {
         displayPageLoader();
-        clearInputField();
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
 
