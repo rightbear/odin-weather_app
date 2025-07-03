@@ -1,7 +1,11 @@
 import "./styles.css";
-import { locationInputEvent, locationButtonEvent, unitSwitchEvent } from "./function/eventHandler.js";
+import {
+  locationInputEvent,
+  locationButtonEvent,
+  unitSwitchEvent,
+} from "./function/eventHandler.js";
 
+// Load all eventListners
 locationInputEvent();
 locationButtonEvent();
 unitSwitchEvent();
-//retrieveData(myKey);

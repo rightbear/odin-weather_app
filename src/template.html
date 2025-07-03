@@ -8,27 +8,36 @@
   <body>
     <main class="content">
       <div class="header">
-        <h1 class="headerTitle"><span class="firstWord">Wes</span> Weather Report</h1>
+        <h1 class="headerTitle">
+          <span class="firstWord">Wes</span> Weather Report
+        </h1>
       </div>
 
       <div class="info">
         <div class="introText">
           <p>Welcome to Wes Weather Report! &#x1F44B;</p>
-          <p>Try to search a location and retrieve the latest weather forecast. &#128752;</p>
+          <p>
+            Try to search a location and retrieve the latest weather forecast.
+            &#128752;
+          </p>
         </div>
       </div>
 
       <div class="setting">
         <form class="settingForm">
           <h2 id="settingTitle">Check Today's Weather Forecast</h2>
-          
+
           <div class="settingControl">
             <div class="formLocation">
               <h3>Select a city name</h3>
               <div class="inputField">
                 <div class="locationInput">
-                  <img id="searchIcon" src="./images/magnifier.png">
-                  <input type="text" id="locationInput" placeholder="Search a city...">
+                  <img id="searchIcon" src="./images/magnifier.png" />
+                  <input
+                    type="text"
+                    id="locationInput"
+                    placeholder="Search a city..."
+                  />
                 </div>
                 <div class="invalidInputMsg"></div>
               </div>
@@ -38,7 +47,7 @@
               <h3>Fetch your location</h3>
               <div class="btnField">
                 <button class="locationBtn">
-                  <img id="pinIcon" src="./images/location-pin.png">
+                  <img id="pinIcon" src="./images/location-pin.png" />
                 </button>
                 <div class="invalidBtnMsg"></div>
               </div>
@@ -47,16 +56,20 @@
             <div class="formTemp">
               <h3>Switch to Celsius/Fahrenheit</h3>
               <div class="tempSwitch">
-                <input class="switch-checkbox" id="switchItem" type="checkbox" name="switch-checkbox" checked>
+                <input
+                  class="switch-checkbox"
+                  id="switchItem"
+                  type="checkbox"
+                  name="switch-checkbox"
+                  checked
+                />
                 <label class="switch-label" for="switchItem">
-                    <span class="switch-txt" celsius="°C" fahrenheit="°F"></span>
-                    <span class="switch-Round-btn"></span>
+                  <span class="switch-txt" celsius="°C" fahrenheit="°F"></span>
+                  <span class="switch-Round-btn"></span>
                 </label>
               </div>
             </div>
           </div>
-
-        </div>
         </form>
       </div>
     </main>
