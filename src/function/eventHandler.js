@@ -1,17 +1,20 @@
 import { retrieveInputData, retrieveBtnData } from "./APIControl.js";
-import { showBtnInitError, displayWeatherResult } from "./DOMControl"
+import { showBtnInitError, displayWeatherResult, celToFah, preciseRound } from "./DOMControl"
+
+let currentWeatherData = null;
 
 export function locationInputEvent() {
     const locationInput = document.querySelector('#locationInput');
 
-    locationInput.addEventListener('keydown', function(event) {
+    locationInput.addEventListener('keydown', function checkInput(event) {
         if (event.key === 'Enter' || event.keyCode === 13) {
                 event.preventDefault();
 
                 retrieveInputData(locationInput.value)
                 .then(selectedWeatherData => {
                     // catch and print the re-solved promise from retrieveInputData
-                    console.log(selectedWeatherData);
+                    currentWeatherData = selectedWeatherData;
+                    console.log(currentWeatherData);
                     displayWeatherResult(selectedWeatherData);
                 })
                 .catch(error => {
@@ -25,7 +28,7 @@ export function locationInputEvent() {
 export function locationButtonEvent() {
     const locationBtn = document.querySelector('.locationBtn');
 
-    locationBtn.addEventListener('click', function(event) {
+    locationBtn.addEventListener('click', function checkClick(event) {
         event.preventDefault();
 
         if (navigator.geolocation) {
@@ -40,7 +43,8 @@ function locationBtnSuccess(position) {
     retrieveBtnData(position)
     .then(selectedWeatherData => {
         // catch and print the re-solved promise from retrieveBtnData
-        console.log(selectedWeatherData);
+        currentWeatherData = selectedWeatherData;
+        console.log(currentWeatherData);
         displayWeatherResult(selectedWeatherData);
     })
     .catch(error => {
@@ -66,4 +70,37 @@ function locationBtnError(error) {
         invalidBtnMsg.textContent = "An unknown error occurred."
         break;
   }
+}
+
+export function unitSwitchEvent() {
+    const unitSwitchItem = document.querySelector('#switchItem');
+
+    unitSwitchItem.addEventListener('change', function checkChange(event) {
+        if(currentWeatherData && document.querySelector('.weatherInfo')) {
+            const temp = document.querySelector('.temp');
+            const tempRange = document.querySelector('.tempRange');
+            const feelsLike = document.querySelector('.feelsLike');
+            const futureDays = document.querySelectorAll('.future-tempRange');
+
+            // The default unit of temperature fetched from VisualCrossing is °C
+            // The unit for cheched state of switch is °C, unit for uncheched state is °F
+            if(unitSwitchItem.checked){
+                temp.textContent = `${currentWeatherData.temp}°C`;
+                tempRange.textContent = `${currentWeatherData.todaytempMax}°C / ${currentWeatherData.todaytempMin}°C`;
+                feelsLike.textContent = `Feels-like: ${currentWeatherData.feelslike}°C`;
+                futureDays.forEach((future_tempRange, index) => {
+                    future_tempRange.textContent = `${currentWeatherData.future5Days[index].tempmax} / ${currentWeatherData.future5Days[index].tempmin}`;
+                });
+            }
+            else {
+                temp.textContent = `${preciseRound(celToFah(currentWeatherData.temp), 1)}°F`;
+                tempRange.textContent = `${preciseRound(celToFah(currentWeatherData.todaytempMax), 1)}°F / ${preciseRound(celToFah(currentWeatherData.todaytempMin), 1)}°F`;
+                feelsLike.textContent = `Feels-like: ${preciseRound(celToFah(currentWeatherData.feelslike), 1)}°F`;
+                futureDays.forEach((future_tempRange, index) => {
+                    future_tempRange.textContent = `${preciseRound(celToFah(currentWeatherData.future5Days[index].tempmax), 1)} / ${preciseRound(celToFah(currentWeatherData.future5Days[index].tempmin), 1)}`;
+                });
+            }
+        }
+    });
+    
 }

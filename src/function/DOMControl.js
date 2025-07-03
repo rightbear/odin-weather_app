@@ -37,6 +37,7 @@ function clearChild(parentElement) {
 }
 
 async function loadWeatherElement(info, weatherData) {
+    const tempSwitch = document.querySelector('#switchItem');
 
     const weatherInfo = document.createElement('div');
     weatherInfo.classList.add('weatherInfo');
@@ -66,8 +67,15 @@ async function loadWeatherElement(info, weatherData) {
     conditionData.classList.add('conditionData');
     const temp = document.createElement('div');
     temp.classList.add('temp');
-    temp.textContent = `${weatherData.temp}°C`;
-
+    // The default unit of temperature fetched from VisualCrossing is °C
+    // The unit for cheched state of switch is °C, unit for uncheched state is °F
+    if(tempSwitch.checked) {
+        temp.textContent = `${weatherData.temp}°C`;
+    }
+    else {
+        temp.textContent = `${preciseRound(celToFah(weatherData.temp), 1)}°F`;
+    }
+    
     const conditoinRight = document.createElement('div');
     conditoinRight.classList.add('conditoinRight');
     const icon = document.createElement('img');
@@ -82,9 +90,18 @@ async function loadWeatherElement(info, weatherData) {
     }
     const tempRange = document.createElement('div');
     tempRange.classList.add('tempRange');
-    const todayTempMax = weatherData.todaytempMax;
-    const todayTempMin = weatherData.todaytempMin
-    tempRange.textContent = `${todayTempMax}°C / ${todayTempMin}°C`;
+    let todayTempMax = null, todayTempMin = null, tempUnit = null;
+    if(tempSwitch.checked) {
+        todayTempMax = weatherData.todaytempMax;
+        todayTempMin = weatherData.todaytempMin;
+        tempUnit = '°C';
+    }
+    else {
+        todayTempMax = preciseRound(celToFah(weatherData.todaytempMax), 1);
+        todayTempMin = preciseRound(celToFah(weatherData.todaytempMin), 1);
+        tempUnit = '°F';
+    }
+    tempRange.textContent = `${todayTempMax}${tempUnit} / ${todayTempMin}${tempUnit}`;
     conditoinRight.append(icon, tempRange);
 
     conditionData.append(temp, conditoinRight);
@@ -93,7 +110,13 @@ async function loadWeatherElement(info, weatherData) {
     feelData.classList.add('feelData');
     const feelsLike = document.createElement('div');
     feelsLike.classList.add('feelsLike');
-    feelsLike.textContent = `Feels-like: ${weatherData.feelslike}°C`;
+    if(tempSwitch.checked) {
+        feelsLike.textContent = `Feels-like: ${weatherData.feelslike}°C`;
+    }
+    else {
+        feelsLike.textContent = `Feels-like: ${preciseRound(celToFah(weatherData.feelslike), 1)}°F`;
+    }
+
     const humidity = document.createElement('div');
     humidity.classList.add('humidity');
     humidity.textContent = `Humidity: ${weatherData.humidity}%`;
@@ -138,8 +161,16 @@ async function loadWeatherElement(info, weatherData) {
         }
         const future_tempRange = document.createElement('div');
         future_tempRange.classList.add('future-tempRange');
-        const future_tempmax = weatherData.future5Days[i-1].tempmax;
-        const future_tempmin = weatherData.future5Days[i-1].tempmin;
+        let future_tempmax = null, future_tempmin = null;
+        
+        if(tempSwitch.checked) {
+            future_tempmax = weatherData.future5Days[i-1].tempmax;
+            future_tempmin = weatherData.future5Days[i-1].tempmin;
+        }
+        else {
+            future_tempmax = preciseRound(celToFah(weatherData.future5Days[i-1].tempmax), 1);
+            future_tempmin = preciseRound(celToFah(weatherData.future5Days[i-1].tempmin), 1);
+        }
         future_tempRange.textContent = `${future_tempmax} / ${future_tempmin}`;
 
         future_day.append(future_dateTime, future_icon, future_tempRange);
@@ -162,4 +193,13 @@ async function loadIcon(iconName){
     catch(error) {
         throw error;
     }
+}
+
+export function celToFah(celTemp) {
+    return (celTemp * ((9 / 5)) + 32);
+}
+
+export function preciseRound(number, decimalPlaces) {
+  const factor = 10 ** decimalPlaces;
+  return Number(Math.round((number + Number.EPSILON) * factor) / factor);
 }
