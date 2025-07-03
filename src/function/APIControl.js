@@ -1,10 +1,8 @@
 import {
-  showInputEmptyError,
   showInputLocationError,
   showInputConnectError,
   showBtnLocationError,
   showBtnConnectError,
-  clearInputField,
   displayPageLoader,
 } from "./DOMControl";
 
@@ -12,77 +10,68 @@ const myKey = "D79PDB2396QBXM7JCA3DYAGB4";
 
 // The value in input filed is passed to API of VisualCrossing to fetch weather forecast
 export async function retrieveInputData(location) {
-  clearInputField();
-  if (location === "") {
-    showInputEmptyError();
-  } else {
-    try {
-      displayPageLoader();
-      const response = await fetch(
-        `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}/next5days?unitGroup=metric&key=${myKey}`,
-        { mode: "cors" },
-      );
+  try {
+    displayPageLoader();
+    const response = await fetch(
+      `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}/next5days?unitGroup=metric&key=${myKey}`,
+      { mode: "cors" },
+    );
 
-      if (response.status === 400) {
-        // Status code 400 means the format of the API is incorrect or an invalid parameter for location
-        showInputLocationError();
+    if (response.status === 400) {
+      // Status code 400 means the format of the API is incorrect or an invalid parameter for location
+      showInputLocationError();
 
-        throw new Error(`Error parameter for the location: ${location}`);
-      } else if (!response.ok) {
-        // response.ok is true when status code is 200~299
-        showInputConnectError();
+      throw new Error(`Error parameter for the location: ${location}`);
+    } else if (!response.ok) {
+      // response.ok is true when status code is 200~299
+      showInputConnectError();
 
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
 
-      const weatherData = await response.json();
+    const weatherData = await response.json();
 
-      // Use object destructing and rest parameters to get location, date, time, temperature, condition, icon, temp-max/min, temp-feelslike, humidity, windspeed, uvindex, future-5-days-data
-      const {
-        resolvedAddress: locationAddress,
-        currentConditions: {
-          datetime: recordTime,
-          temp,
-          conditions,
-          icon,
-          feelslike,
-          humidity,
-          windspeed,
-          uvindex,
-        },
-        days: [
-          {
-            datetime: recordDate,
-            tempmax: todaytempMax,
-            tempmin: todaytempMin,
-          },
-          ...future5Days
-        ],
-      } = weatherData;
-
-      const selectedWeatherData = {
-        locationAddress,
-        recordDate,
-        recordTime,
+    // Use object destructing and rest parameters to get location, date, time, temperature, condition, icon, temp-max/min, temp-feelslike, humidity, windspeed, uvindex, future-5-days-data
+    const {
+      resolvedAddress: locationAddress,
+      currentConditions: {
+        datetime: recordTime,
         temp,
         conditions,
         icon,
-        todaytempMax,
-        todaytempMin,
         feelslike,
         humidity,
         windspeed,
         uvindex,
-        future5Days,
-      };
+      },
+      days: [
+        { datetime: recordDate, tempmax: todaytempMax, tempmin: todaytempMin },
+        ...future5Days
+      ],
+    } = weatherData;
 
-      // Return the weather data we want
-      return selectedWeatherData;
-    } catch (error) {
-      console.log("Error happens in retrieveInputData");
-      // If there is some error thrown out when requesting the weather data, re-throw the error message
-      throw error;
-    }
+    const selectedWeatherData = {
+      locationAddress,
+      recordDate,
+      recordTime,
+      temp,
+      conditions,
+      icon,
+      todaytempMax,
+      todaytempMin,
+      feelslike,
+      humidity,
+      windspeed,
+      uvindex,
+      future5Days,
+    };
+
+    // Return the weather data we want
+    return selectedWeatherData;
+  } catch (error) {
+    console.log("Error happens in retrieveInputData");
+    // If there is some error thrown out when requesting the weather data, re-throw the error message
+    throw error;
   }
 }
 

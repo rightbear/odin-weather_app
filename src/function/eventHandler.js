@@ -18,11 +18,14 @@ export function locationInputEvent() {
   locationInput.addEventListener("keydown", function checkInput(event) {
     if (event.key === "Enter" || event.keyCode === 13) {
       event.preventDefault();
+      // Get the location name in input field before call clearInputField
+      let inputLocation = locationInput.value;
 
-      if (locationInput.value === "") {
+      clearInputField();
+      if (inputLocation === "") {
         showInputEmptyError();
       } else {
-        retrieveInputData(locationInput.value)
+        retrieveInputData(inputLocation)
           .then((selectedWeatherData) => {
             // catch and print the re-solved promise from retrieveInputData
             currentWeatherData = selectedWeatherData;
@@ -30,6 +33,7 @@ export function locationInputEvent() {
             return displayWeatherResult(selectedWeatherData);
           })
           .then(() => {
+            // The return value of displayWeatherResult is undefined(not need to be print)
             console.log("Weather data successfully loaded");
           })
           .catch((error) => {
@@ -38,7 +42,7 @@ export function locationInputEvent() {
             const errorMsg = error.message;
             // Deal with all error except the empty input
             if (!errorMsg.includes("Cannot read properties of null")) {
-              return displayLoadError();
+              displayLoadError();
             }
           });
       }
@@ -75,6 +79,7 @@ function locationBtnSuccess(position) {
       return displayWeatherResult(selectedWeatherData);
     })
     .then(() => {
+      // The return value of displayWeatherResult is undefined(not need to be print)
       console.log("Weather data successfully loaded");
     })
     .catch((error) => {
@@ -83,7 +88,7 @@ function locationBtnSuccess(position) {
       const errorMsg = error.message;
       // Deal with all errors except the empty input
       if (!errorMsg.includes("Cannot read properties of null")) {
-        return displayLoadError();
+        displayLoadError();
       }
     });
 }

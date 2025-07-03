@@ -87,8 +87,7 @@ export async function displayLoadError() {
     errorImage.src = imageSrc;
     errorImage.height = 100;
   } catch (error) {
-    console.log("Error happens in displayLoadError");
-    throw error;
+    console.log("Error happens in displayLoadError", error.message);
   }
 
   const errorMessage = document.createElement("div");
@@ -106,8 +105,10 @@ export async function displayWeatherResult(weatherData) {
   clearChild(weatherContent);
   try {
     await loadWeatherElement(weatherContent, weatherData);
+    // return undefined to locationInputEvent and locationBtnSuccess
   } catch (error) {
-    console.log("Error happens in displayWeatherResult");
+    console.log("Error happens in displayWeatherResult", error.message);
+    // Rethrow the error to catch block in locationInputEvent
     throw error;
   }
 }
@@ -158,7 +159,8 @@ async function loadWeatherElement(weatherContent, weatherData) {
     icon.src = iconSrc;
     icon.height = 50;
   } catch (error) {
-    console.log("Error happens in loadWeatherElement");
+    console.log("Error happens in loadWeatherElement", error.message);
+    // Rethrow the error to catch block in displayWeatherResult
     throw error;
   }
   const tempRange = document.createElement("div");
@@ -229,7 +231,8 @@ async function loadWeatherElement(weatherContent, weatherData) {
       future_icon.src = iconSrc;
       future_icon.height = 30;
     } catch (error) {
-      console.log("Error happens in loadWeatherElement");
+      console.log("Error happens in loadWeatherElement", error.message);
+      // Rethrow the error to catch block in displayWeatherResult
       throw error;
     }
     const future_tempRange = document.createElement("div");
@@ -274,7 +277,8 @@ async function loadIcon(iconName) {
     // The source of image is stored in default field of module
     return iconModule.default;
   } catch (error) {
-    console.log("Error happens in loadIcon");
+    console.log("Error happens in loadIcon", error.message);
+    // Rethrow the error to catch block in loadWeatherElement
     throw error;
   }
 }
