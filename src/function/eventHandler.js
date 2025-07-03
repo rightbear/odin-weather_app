@@ -12,7 +12,7 @@ export function locationInputEvent() {
                 .then(selectedWeatherData => {
                     // catch and print the re-solved promise from retrieveInputData
                     console.log(selectedWeatherData);
-                    displayWeatherResult();
+                    displayWeatherResult(selectedWeatherData);
                 })
                 .catch(error => {
                     // catch and print the error re-thrown from retrieveInputData

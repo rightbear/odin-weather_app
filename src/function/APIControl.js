@@ -28,10 +28,10 @@ export async function retrieveInputData(location){
             const weatherData = await response.json();
 
             // Use object destructing and rest parameters to get location, date, time, temperature, condition, icon, temp-max/min, temp-feelslike, humidity, windspeed, uvindex, future-5-days-data
-            const { resolvedAddress: locationAddress, currentConditions: {datetime: currentTime, temp, conditions, icon, feelslike, humidity, windspeed, uvindex},
-                    days: [ {datetime: currentDate, tempmax: todaytempMax, tempmin: todaytempMin}, ...future5Days] } = weatherData;
+            const { resolvedAddress: locationAddress, currentConditions: {datetime: recordTime, temp, conditions, icon, feelslike, humidity, windspeed, uvindex},
+                    days: [ {datetime: recordDate, tempmax: todaytempMax, tempmin: todaytempMin}, ...future5Days] } = weatherData;
 
-            const selectedWeatherData =  { locationAddress, currentDate, currentTime, temp, conditions, icon, todaytempMax, todaytempMin, feelslike, humidity, windspeed, uvindex, future5Days };
+            const selectedWeatherData =  { locationAddress, recordDate, recordTime, temp, conditions, icon, todaytempMax, todaytempMin, feelslike, humidity, windspeed, uvindex, future5Days };
 
             // return the weather data we want
             return selectedWeatherData;
@@ -90,6 +90,7 @@ export async function retrieveBtnData(position){
     }
 }
 
+// Behave similar to Promise.all – also resolves with the first error, but waits until all promises are settled.
 function customPromiseAllWait(promises) {
   return new Promise((resolve, reject) => {
     const results = new Array(promises.length);

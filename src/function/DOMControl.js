@@ -42,6 +42,7 @@ async function loadWeatherElement(info, weatherData) {
     weatherInfo.classList.add('weatherInfo');
 
     const weatherTitle = document.createElement('h2');
+    weatherTitle.id = "infoTitle";
     weatherTitle.textContent = "Current Weather";
 
     const weatherContent = document.createElement('div');
@@ -55,10 +56,10 @@ async function loadWeatherElement(info, weatherData) {
     timeData.classList.add('timeData');
     const recordDate = document.createElement('div');
     recordDate.classList.add('recordDate');
-    recordDate.textContent = weatherData.currentDate;
+    recordDate.textContent = weatherData.recordDate;
     const recordTime = document.createElement('div');
     recordTime.classList.add('recordTime');
-    recordTime.textContent = weatherData.currentTime;
+    recordTime.textContent = weatherData.recordTime;
     timeData.append(recordDate, recordTime);
 
     const conditionData = document.createElement('div');
@@ -66,23 +67,27 @@ async function loadWeatherElement(info, weatherData) {
     const temp = document.createElement('div');
     temp.classList.add('temp');
     temp.textContent = `${weatherData.temp}°C`;
+
+    const conditoinRight = document.createElement('div');
+    conditoinRight.classList.add('conditoinRight');
     const icon = document.createElement('img');
     icon.classList.add('icon');
     try {
         const iconSrc = await loadIcon(weatherData.icon);
         icon.src = iconSrc;
-        icon.height = 30;
+        icon.height = 50;
     }
     catch (error) {
         throw error;
     }
-    conditionData.append(temp, icon);
-    
     const tempRange = document.createElement('div');
     tempRange.classList.add('tempRange');
     const todayTempMax = weatherData.todaytempMax;
     const todayTempMin = weatherData.todaytempMin
     tempRange.textContent = `${todayTempMax}°C / ${todayTempMin}°C`;
+    conditoinRight.append(icon, tempRange);
+
+    conditionData.append(temp, conditoinRight);
 
     const feelData = document.createElement('div');
     feelData.classList.add('feelData');
@@ -106,10 +111,18 @@ async function loadWeatherElement(info, weatherData) {
 
     const future5Days = document.createElement('div');
     future5Days.classList.add('future5Days');
+
+    const futureTitle = document.createElement('h4');
+    futureTitle.textContent = "Forecast for future 5 days"
+
+    const futureDayGrid = document.createElement('div');
+    futureDayGrid.classList.add('futureDayGrid');
+
     for(let i=1 ; i<=5 ; i++) {
         const future_day = document.createElement('div');
         future_day.classList.add('future-day');
         future_day.dataset.day = i;
+
         const future_dateTime = document.createElement('div');
         future_dateTime.classList.add('future-dateTime');
         future_dateTime.textContent = `${weatherData.future5Days[i-1].datetime}`
@@ -130,10 +143,11 @@ async function loadWeatherElement(info, weatherData) {
         future_tempRange.textContent = `${future_tempmax} / ${future_tempmin}`;
 
         future_day.append(future_dateTime, future_icon, future_tempRange);
-        future5Days.appendChild(future_day);
+        futureDayGrid.appendChild(future_day);
     }
+    future5Days.append(futureTitle, futureDayGrid)
 
-    weatherContent.append(locationAddress, timeData, conditionData, tempRange, feelData, future5Days);
+    weatherContent.append(locationAddress, timeData, conditionData, feelData, supplementData,  future5Days);
     weatherInfo.append(weatherTitle, weatherContent);
     info.appendChild(weatherInfo);
 }
