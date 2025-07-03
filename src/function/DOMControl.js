@@ -1,16 +1,31 @@
-export function showEmptyError() {
+export function showInputEmptyError() {
     const invalidInputMsg = document.querySelector(".invalidInputMsg");
     invalidInputMsg.textContent = "The location name can't be enpty.";
 }
 
-export function  showInputError() {
+export function showInputLocationError() {
     const invalidInputMsg = document.querySelector(".invalidInputMsg");
     invalidInputMsg.textContent = "No matching location found.";
+}
+
+export function showInputConnectError() {
+    const invalidInputMsg = document.querySelector(".invalidInputMsg");
+    invalidInputMsg.textContent = "Can't fetch the weather data with network";
 }
 
 export function showBtnInitError() {
     const invalidBtnMsg = document.querySelector(".invalidBtnMsg");
     invalidBtnMsg.textContent = "Geolocation is not supported by this browser.";
+}
+
+export function showBtnLocationError() {
+    const invalidBtnMsg = document.querySelector(".invalidBtnMsg");
+    invalidBtnMsg.textContent = "No matching location found.";
+}
+
+export function showBtnConnectError() {
+    const invalidBtnMsg = document.querySelector(".invalidBtnMsg");
+    invalidBtnMsg.textContent = "Can't fetch the weather data with network";
 }
 
 export function clearInputField() {
@@ -23,21 +38,9 @@ export function clearInputField() {
     invalidBtnMsg.textContent = "";
 }
 
-
-export function displayWeatherResult(weatherData) {
+export function displayPageLoader() {
     const info = document.querySelector(".info");
     clearChild(info);
-    loadWeatherElement(info, weatherData)
-}
-
-function clearChild(parentElement) {
-    while (parentElement.firstChild) {
-        parentElement.removeChild(parentElement.firstChild);
-    }
-}
-
-async function loadWeatherElement(info, weatherData) {
-    const tempSwitch = document.querySelector('#switchItem');
 
     const weatherInfo = document.createElement('div');
     weatherInfo.classList.add('weatherInfo');
@@ -48,6 +51,64 @@ async function loadWeatherElement(info, weatherData) {
 
     const weatherContent = document.createElement('div');
     weatherContent.classList.add('weatherContent');
+
+    const loaderContainer = document.createElement('div');
+    loaderContainer.classList.add('loaderContainer');
+    
+    const weatherLoader = document.createElement('div');
+    weatherLoader.classList.add('weatherLoader');
+
+    loaderContainer.appendChild(weatherLoader);
+    weatherContent.appendChild(loaderContainer);
+    weatherInfo.append(weatherTitle, weatherContent);
+    info.appendChild(weatherInfo);
+}
+
+export async function displayLoadError() {
+    const weatherContent = document.querySelector(".weatherContent");
+    clearChild(weatherContent);
+
+    const errorContainer = document.createElement('div');
+    errorContainer.classList.add('errorContainer');
+    
+    const errorImage = document.createElement('img');
+    errorImage.classList.add('errorImage');
+    try {
+        const imageSrc = await loadIcon("load-error");
+        errorImage.src = imageSrc;
+        errorImage.height = 100;
+    }
+    catch (error) {
+        throw error;
+    }
+
+    const errorMessage = document.createElement('div');
+    errorMessage.classList.add('errorMessage');
+    errorMessage.textContent = "Oops...some errors just happen! Maybe refresh the page or search again later.";
+
+    errorContainer.append(errorImage, errorMessage);
+    weatherContent.appendChild(errorContainer);
+}
+
+export async function displayWeatherResult(weatherData) {
+    const weatherContent = document.querySelector(".weatherContent");
+    clearChild(weatherContent);
+    try {
+        await loadWeatherElement(weatherContent, weatherData);
+    }
+    catch(error) {
+        throw error;
+    }
+}
+
+function clearChild(parentElement) {
+    while (parentElement.firstChild) {
+        parentElement.removeChild(parentElement.firstChild);
+    }
+}
+
+async function loadWeatherElement(weatherContent, weatherData) {
+    const tempSwitch = document.querySelector('#switchItem');
 
     const locationAddress = document.createElement('div');
     locationAddress.classList.add('locationAddress');
@@ -179,8 +240,6 @@ async function loadWeatherElement(info, weatherData) {
     future5Days.append(futureTitle, futureDayGrid)
 
     weatherContent.append(locationAddress, timeData, conditionData, feelData, supplementData,  future5Days);
-    weatherInfo.append(weatherTitle, weatherContent);
-    info.appendChild(weatherInfo);
 }
 
 // Dynamically import the image file as module

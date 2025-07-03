@@ -1,5 +1,5 @@
 import { retrieveInputData, retrieveBtnData } from "./APIControl.js";
-import { showBtnInitError, displayWeatherResult, celToFah, preciseRound } from "./DOMControl"
+import { showBtnInitError, displayLoadError, displayWeatherResult, celToFah, preciseRound } from "./DOMControl"
 
 let currentWeatherData = null;
 
@@ -15,11 +15,19 @@ export function locationInputEvent() {
                     // catch and print the re-solved promise from retrieveInputData
                     currentWeatherData = selectedWeatherData;
                     console.log(currentWeatherData);
-                    displayWeatherResult(selectedWeatherData);
+                    return displayWeatherResult(selectedWeatherData);
+                })
+                .then(() => {
+                    console.log('Weather data successfully loaded');
                 })
                 .catch(error => {
                     // catch and print the error re-thrown from retrieveInputData
                     console.log(error);
+                    const errorMsg = error.message;
+                    // Deal with all error except the empty input
+                    if(!errorMsg.includes("Cannot read properties of null")){
+                        return displayLoadError();
+                    }
                 });
         }
     });
@@ -45,11 +53,19 @@ function locationBtnSuccess(position) {
         // catch and print the re-solved promise from retrieveBtnData
         currentWeatherData = selectedWeatherData;
         console.log(currentWeatherData);
-        displayWeatherResult(selectedWeatherData);
+        return displayWeatherResult(selectedWeatherData);
+    })
+    .then(() => {
+        console.log('Weather data successfully loaded');
     })
     .catch(error => {
         // catch and print the error re-thrown from retrieveBtnData
         console.log(error);
+        const errorMsg = error.message;
+        // Deal with all errors except the empty input
+        if(!errorMsg.includes("Cannot read properties of null")){
+            return displayLoadError();
+        }
     });
 }
 
@@ -76,7 +92,7 @@ export function unitSwitchEvent() {
     const unitSwitchItem = document.querySelector('#switchItem');
 
     unitSwitchItem.addEventListener('change', function checkChange(event) {
-        if(currentWeatherData && document.querySelector('.weatherInfo')) {
+        if(currentWeatherData && document.querySelector('.locationAddress')) {
             const temp = document.querySelector('.temp');
             const tempRange = document.querySelector('.tempRange');
             const feelsLike = document.querySelector('.feelsLike');

@@ -1,27 +1,27 @@
-import { showEmptyError, showInputError, clearInputField } from "./DOMControl"
+import { showInputEmptyError, showInputLocationError, showInputConnectError, showBtnLocationError, showBtnConnectError, clearInputField, displayPageLoader } from "./DOMControl"
 
 const myKey = "D79PDB2396QBXM7JCA3DYAGB4";
 
 export async function retrieveInputData(location){
     if(location === "") {
-        showEmptyError();
+        showInputEmptyError();
     }
     else {
         try {
+            displayPageLoader();
             clearInputField();
             const response = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}/next5days?unitGroup=metric&key=${myKey}`, { mode: "cors" });
             
             if(response.status === 400) {
                 // Status code 400 means the format of the API is incorrect or an invalid parameter for location
-                showInputError();
+                showInputLocationError();
 
                 throw new Error(`Error parameter for the location: ${location}`);
             }
             else if(!response.ok) {
                 // response.ok is true when status code is 200~299
+                showInputConnectError();
 
-                alert("Oops...Some errors just happen! Maybe refresh the page or search again later.")
-                
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
@@ -45,6 +45,7 @@ export async function retrieveInputData(location){
 
 export async function retrieveBtnData(position){
     try {
+        displayPageLoader();
         clearInputField();
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
@@ -55,11 +56,12 @@ export async function retrieveBtnData(position){
         ]);
 
         if(allResponse[0].status === 400) {
+            showBtnLocationError();
             throw new Error(`Error parameter for the location: ${latitude}, ${longitude}`);
         }
         allResponse.forEach((response) => {
             if (!response.ok) {
-                alert("Oops...Some errors just happen! Maybe refresh the page or search again later.");
+                showBtnConnectError();
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
         });
