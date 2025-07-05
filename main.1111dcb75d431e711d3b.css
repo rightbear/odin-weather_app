@@ -5,8 +5,6 @@
 }
 
 html {
-  height: 100vh;
-
   --font-color: #efe4d1;
 }
 
@@ -103,9 +101,9 @@ form h3 {
   border-radius: 10px;
   padding: 30px;
   margin: 30px;
-  gap: 15%;
+  gap: 75px;
   width: 90%;
-  height: 90%;
+  min-height: 75%;
 
   background-color: rgba(25, 25, 112, 0.75);
 }
@@ -377,9 +375,9 @@ form h3 {
   border-radius: 10px;
   padding: 10px 30px;
   margin: 30px;
-  gap: 5%;
+  gap: 30px;
   width: 90%;
-  height: 90%;
+  min-height: 75%;
 
   background-color: rgba(25, 25, 112, 0.75);
 }
@@ -458,4 +456,4 @@ form h3 {
 }
 
 
-/*# sourceMappingURL=main.38b417431c87c36578c4.css.map*/
+/*# sourceMappingURL=main.1111dcb75d431e711d3b.css.map*/
